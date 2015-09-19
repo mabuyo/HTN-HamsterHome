@@ -71,7 +71,7 @@ function trackChanges(){
 		console.log('water has changed!');
 		$('.water-status').each(function() {
 			$(this).html(waterRef.stats);
-			var desc = "Water levels are " + $('#water-status').html();
+			var desc = "Water levels are " + $(this).html();
 			activityRef.push({
 				"date": new Date().toString(),
 				"category": "water",
