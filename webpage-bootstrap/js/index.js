@@ -1,9 +1,15 @@
-var database = new Firebase("https://hamster-home.firebaseio.com/");
+var ref = new Firebase("https://hamster-home.firebaseio.com/");
 
-database.set({
-  food: {},
-  water: {
-  	isFull: true
-  },
-  wheel: {}
-});
+// ref.set({
+//   food: {},
+//   water: {
+//   	isFull: true
+//   },
+//   wheel: {}
+// });
+
+// set references to components
+var foodRef = new Firebase("https://hamster-home.firebaseio.com/food");
+var waterRef = new Firebase("https://hamster-home.firebaseio.com/water");
+var wheelRef = new Firebase("https://hamster-home.firebaseio.com/wheel");
+

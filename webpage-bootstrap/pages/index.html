@@ -57,16 +57,17 @@
             </div>
             <!-- /.navbar-header -->
 
+            <!-- QUICK STATS SIDE BAR -->
             <div class="navbar-default sidebar" role="navigation">
                 <img src="../../res/hamster-profile-icon.png" width="128px" height="128px" style="margin-left:auto; margin-right:auto; margin-top:40px; display:block"/>
                 <div class="panel panel-default" style="margin-top:20px">
                     <div class="panel-body">
                         <h2 style="text-align:center">Stats</h2>
                         <ul class="list-group">
-                              <li class="list-group-item">Water Level: Full</li>
-                              <li class="list-group-item">Food: 90% Consumed</li>
-                              <li class="list-group-item">Calories Burned: 250</li>
-                              <li class="list-group-item">Last Visited: Saturday</li>
+                              <li class="list-group-item"><span id="quickstat-water">Water Level</span>: Full</li>
+                              <li class="list-group-item"><span id="quickstat-food">Food</span>: 90% Consumed</li>
+                              <li class="list-group-item"><span id="quickstat-calories">Calories Burned</span>: 250</li>
+                              <li class="list-group-item"><span id="quickstat-visit">Last Visited</span>: Saturday</li>
                         </ul>
                     </div>
                 </div>
@@ -84,44 +85,97 @@
             </div>
 
             <!-- /.row -->
-            <div class="panel panel-default">
-                        
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#wheel" data-toggle="tab">Wheel</a>
-                                </li>
-                                <li><a href="#food" data-toggle="tab">Food</a>
-                                </li>
-                                <li><a href="#water" data-toggle="tab">Water</a>
-                                </li>
-                                <li><a href="#settings" data-toggle="tab">Settings</a>
-                                </li>
-                            </ul>
-
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div class="tab-pane fade in active" id="wheel">
-                                    <h4>Wheel Activity</h4>
-                                    <h2><img src="../../res/hamster-wheel.png" width="128px" height="128px"/> I ran <span id="km_ran">X</span> km today!</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <!-- icon -->
+                                <div class="col-xs-3">
+                                <img src="../../res/hamster-wheel.png" width="70px" height="70px"/>
                                 </div>
-                                <div class="tab-pane fade" id="food">
-                                    <h4>Food Activity</h4>
-                                    <h2><img src="../../res/hamster-food.png" width="128px" height="128px"/></h2>
-                                </div>
-                                <div class="tab-pane fade" id="water">
-                                    <h4>Water Activity</h4>
-                                    <h2><img src="../../res/hamster-water.png" width="128px" height="128px"/></h2>
-                                </div>
-                                <div class="tab-pane fade" id="settings">
-                                    <h4>Settings Tab</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">10 km</div>
+                                    <div>Distance Ran</div>
                                 </div>
                             </div>
                         </div>
-                        <!-- /.panel-body -->
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-right">View graphs <i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
                     </div>
+                </div>
+                <!-- Food Panel -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-cutlery fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Full</div>
+                                    <div>Food Status</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <a href="#" class="button">
+                                <span class="pull-right">Feed <i class="fa fa-arrow-circle-right"></i></span>
+                                </a>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tint fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Empty</div>
+                                    <div>Water Levels</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left"></span>
+                                <span class="pull-right">Fill <i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-clock-o fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">12</div>
+                                    <div>Hours since last visit</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-right">Log visit <i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-8">
 
@@ -143,54 +197,39 @@
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                            <i class="fa fa-bell fa-fw"></i> Hamster Activity
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <i class="fa fa-bolt fa-fw"></i> Ran for 10 minutes
                                     <span class="pull-right text-muted small"><em>4 minutes ago</em>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small"><em>12 minutes ago</em>
+                                    <i class="fa fa-cutlery fa-fw"></i> Food refilled
+                                    <span class="pull-right text-muted small"><em>1 hour ago</em>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small"><em>27 minutes ago</em>
+                                    <i class="fa fa-tint fa-fw"></i> Water refilled
+                                    <span class="pull-right text-muted small"><em>2 hours ago</em>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small"><em>43 minutes ago</em>
+                                    <i class="fa fa-tint fa-fw"></i> Water empty
+                                    <span class="pull-right text-muted small"><em>2 hours ago</em>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small"><em>11:32 AM</em>
+                                    <i class="fa fa-clock-o fa-fw"></i> Visited
+                                    <span class="pull-right text-muted small"><em>9:10 PM</em>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-bolt fa-fw"></i> Server Crashed!
-                                    <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-warning fa-fw"></i> Server Not Responding
-                                    <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
-                                    <span class="pull-right text-muted small"><em>9:49 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-money fa-fw"></i> Payment Received
-                                    <span class="pull-right text-muted small"><em>Yesterday</em>
+                                    <i class="fa fa-bolt fa-fw"></i> Ran for 10 minutes
+                                    <span class="pull-right text-muted small"><em>1:00 AM</em>
                                     </span>
                                 </a>
                             </div>
