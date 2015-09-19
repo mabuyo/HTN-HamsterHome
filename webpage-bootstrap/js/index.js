@@ -7,17 +7,11 @@ var waterRef = new Firebase("https://hamster-home.firebaseio.com/water");
 var wheelRef = new Firebase("https://hamster-home.firebaseio.com/wheel");
 
 /** WATER FUNCTIONS **/
-waterRef.on('value', function(snapshot) {
+waterRef.once('value', function(snapshot) {
 	console.log(snapshot.val());
 	var water = snapshot.val();
 	$('.water-status').each(function() { 
-		if (water.isFull == true) {
-			console.log("Water status: full");
-			$(this).html("Full");
-		} else {
-			console.log("Water status: empty");
-			$(this).html("Empty");
-		}
+		$(this).html(water.stats);
 	});
 });	
 
@@ -58,6 +52,11 @@ $('.feedButton').on('click', function() {
 /** ALL TRACKED CHANGES **/
 function trackChanges(){
 	console.log("Tracking changes...");
+	// water
+	$('.water-status').each(function() { 
+		$(this).html(waterRef.stats);
+	});
+
 	// food
 	var currentDate = new Date();
 	var timePassed = currentDate.getTime() - (new Date(date_lastFilled.date)).getTime();
@@ -85,7 +84,7 @@ function init() {
 	});
 }
 
-//FIREBASE DATA INITALIZERS 
+//FIREBASE DATA tINITALIZERS 
 dateRef.once("value", function(data) {
 	$('.last-update-date').each(function() {
 		console.log(data.val());
