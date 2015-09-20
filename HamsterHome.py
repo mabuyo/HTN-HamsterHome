@@ -47,17 +47,22 @@ def handleSerialData():
 			print distance
 			d = datetime.datetime.now()
 			key = str(str(d.month)+'-'+str(d.day)+'-'+str(d.year))
-			oldDistance = wheelRef.child(key+'/hours/' + str(d.hour)).get()
-			print oldDistance
-			wheelRef.child(key).set({
-				"totalDailyDistance": 0,
-				"hours": {
-					str(d.hour):distance+oldDistance
-				}
-			})
 
-			#totalHourlyDistance = (distance pulled from database) + distance
-			#total 
+			# if the hour already exists, then update it with old distance
+			# wheelDateLog = wheelRef.child(key + '/day')
+			# wheelHourLog = wheelRef.child(key + '/hours/' + str(d.hour))
+			# if (wheelHourLog.get() == None): oldDistance = 0
+			# else: oldDistance = wheelRef.child(key+'/hours/' + str(d.hour)).get()
+			# print oldDistance
+			# wheelDateLog.set({
+			# 	"totalDailyDistance": 0
+			# })
+			
+			thisday = wheelRef.child(key).get()
+			oldDistance = thisday["totalDailyDistance"]
+			wheelRef.child(key).set({
+				"totalDailyDistance": oldDistance + distance
+			})
 
 def handleFireBaseData():
 	while True:
