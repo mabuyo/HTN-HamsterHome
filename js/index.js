@@ -107,7 +107,6 @@ dateRef.once("value", function(data) {
 });
 
 activityRef.limitToLast(7).on('child_added', function (snapshot, prevChildKey) {
-	//console.log("Activity: ", snapshot.val());
 	var act = snapshot.val();
 	var description = act.description;
 	var date = act.date;
@@ -125,7 +124,6 @@ activityRef.limitToLast(7).on('child_added', function (snapshot, prevChildKey) {
 		default:
 			icon = "fa-bolt";
 	}
-
 	$("#activities-short").prepend('<a href="#" class="list-group-item"><i class="fa ' + icon +  ' fa-fw"></i>' + description +'<span class="pull-right text-muted small"><em>' + (new Date(date)).toDateString() + '</em></span></a>'
 	);
 });

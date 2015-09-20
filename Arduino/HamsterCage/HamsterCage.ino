@@ -14,6 +14,8 @@ int oldBinaryWheelValue = 0;
 int newBinaryWheelValue = 0;
 int quarterTurns = 0;
 int fullTurns = 0;
+int state;
+int changeState = 0;
 Timer t;
 
 //*incoming data variables
@@ -35,23 +37,7 @@ void setup() {
   t.every(1000,uploadTurns);
   t.every(1000,checkWaterLevel);
   
-  // Water sensor setup
-  pinMode(TEN_ML_PIN,INPUT);
-  pinMode(THIRTY_ML_PIN,INPUT);
-  pinMode(FIFTY_ML_PIN,INPUT);
-  Serial.flush();
-  
-  // Motor setup
-  myServo.attach(9);
-  myServo.write(90);  
-  }
- 
- 
- 
-void loop() {
-  /************************** Wheel Sensor***************************/
-  /******************************************************************/
-   long duration, distanceCm;
+  long duration, distanceCm;
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(TRIG_PIN, LOW);
   delayMicroseconds(2);
@@ -61,26 +47,73 @@ void loop() {
   duration = pulseIn(ECHO_PIN,HIGH);
   // convert the time into a distance
   distanceCm = duration / 29.1 / 2 ;
-  //Serial.print("distance: ");
-  //Serial.println(distanceCm);
+  Serial.print("distance: ");
+  Serial.println(distanceCm);
   //delay(10);
   if ((distanceCm <= 0)  || distanceCm >= 8){
+    state = 0;
+  } else {
+    state = 1;
+  }
+  Serial.print(state);
+  // Water sensor setup
+  pinMode(TEN_ML_PIN,INPUT);
+  pinMode(THIRTY_ML_PIN,INPUT);
+  pinMode(FIFTY_ML_PIN,INPUT);
+  Serial.flush();
+  
+  // Motor setup
+  myServo.attach(9);
+  myServo.write(90);
+
+
+  }
+ 
+ 
+ 
+void loop() {
+  /************************** Wheel Sensor***************************/
+  /******************************************************************/
+  long duration, distanceCm;
+  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  duration = pulseIn(ECHO_PIN,HIGH);
+  // convert the time into a distance
+  distanceCm = duration / 29.1 / 2 ;
+  delay(10);
+  //Serial.print("distance: ");
+  //Serial.println(distanceCm);
+  if ((distanceCm <= 0)  || distanceCm >= 6){
     newBinaryWheelValue = 0;
   } else {
     newBinaryWheelValue = 1;
   }
   //Serial.print("binary value:  ");
   //Serial.println(newBinaryWheelValue);
- if(oldBinaryWheelValue != newBinaryWheelValue) {
-   quarterTurns = quarterTurns + 1;
-   //Serial.print("quarter turns:  ");
-   //Serial.println(quarterTurns);
-   oldBinaryWheelValue = newBinaryWheelValue;
- }
- if(quarterTurns == 4) {
-   fullTurns = fullTurns + 1;
-   quarterTurns = 0;
- }
+  if(newBinaryWheelValue != state) { //changed states
+    changeState += 1;
+  } else if (newBinaryWheelValue == state) {
+    changeState = 0;
+  }
+  //Serial.print("changeState: ");
+  //  Serial.print(changeState);
+  if (changeState >= 2) {
+    quarterTurns = quarterTurns + 1;
+    //Serial.print("quarter turns:  ");
+    //Serial.println(quarterTurns);
+    state = newBinaryWheelValue;
+    changeState = 0;
+  }
+
+  if(quarterTurns == 4) {
+    fullTurns = fullTurns + 1;
+    Serial.println(fullTurns); 
+    quarterTurns = 0;
+  }
  t.update();
 
 

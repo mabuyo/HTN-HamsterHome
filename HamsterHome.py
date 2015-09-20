@@ -4,12 +4,14 @@ import io
 from threading import Thread
 import datetime
 
-# diameterOfWheel = 5
+diameterOfWheel = 0.12
 
 waterRef = Firebase('https://hamster-home.firebaseio.com/water')
 foodRefillRef = Firebase('https://hamster-home.firebaseio.com/food/refillFood')
 foodRef = Firebase('https://hamster-home.firebaseio.com/food')
 activityRef = Firebase('https://hamster-home.firebaseio.com/activity')
+wheelRef = Firebase('https://hamster-home.firebaseio.com/wheel')
+
 s = serial.Serial('/dev/tty.usbmodem1451', 9600)
 
 def handleSerialData():
@@ -19,7 +21,7 @@ def handleSerialData():
 		print incomingSerialData
 		if incomingSerialData.startswith('/W'):
 			waterLevel = incomingSerialData[2]
-			print waterLevel
+			#print waterLevel
 			if (waterLevel == "0"): waterDescription = "empty"
 			elif (waterLevel == "1"): waterDescription = "almost empty"
 			elif (waterLevel == "2"): waterDescription = "half full"
@@ -37,16 +39,25 @@ def handleSerialData():
 					"category": "water",
 					"description": desc
 				})
+		elif incomingSerialData.startswith('/T'):
+			revolutions = float(incomingSerialData[2:])
+			print revolutions
+			circumference = 3.14159*diameterOfWheel
+			distance = circumference*revolutions
+			print distance
+			d = datetime.datetime.now()
+			key = str(str(d.month)+'-'+str(d.day)+'-'+str(d.year))
+			oldDistance = wheelRef.child(key+'/hours/' + str(d.hour)).get()
+			print oldDistance
+			wheelRef.child(key).set({
+				"totalDailyDistance": 0,
+				"hours": {
+					str(d.hour):distance+oldDistance
+				}
+			})
 
-
-
-		# elif incomingSerialData.startswith('/T'):
-		# 	revolutions = incomingSerialData[2:]
-		# 	print revolutions
-		# 	circumference = 3.14159*diameterOfWheel
-		# 	distance = circumference*revolutions
-		# 	#totalHourlyDistance = (distance pulled from database) + distance
-		# 	#total 
+			#totalHourlyDistance = (distance pulled from database) + distance
+			#total 
 
 def handleFireBaseData():
 	while True:
