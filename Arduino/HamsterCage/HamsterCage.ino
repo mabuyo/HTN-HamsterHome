@@ -112,7 +112,7 @@ void uploadTurns() {
 
 void feedHamster() {
   myServo.write(100);
-  delay(1500);
+  delay(500);
   myServo.write(90);
 }
 

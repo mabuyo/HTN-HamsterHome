@@ -1,24 +1,18 @@
 var ref = new Firebase("https://hamster-home.firebaseio.com/");
-var dateRef = new Firebase("https://hamster-home.firebaseio.com/last_updated");
 
 // set references to components
+var dateRef = new Firebase("https://hamster-home.firebaseio.com/last_updated");
 var foodRef = new Firebase("https://hamster-home.firebaseio.com/food");
 var waterRef = new Firebase("https://hamster-home.firebaseio.com/water");
 var wheelRef = new Firebase("https://hamster-home.firebaseio.com/wheel");
 var activityRef = new Firebase("https://hamster-home.firebaseio.com/activity");
 
 /** WATER FUNCTIONS **/
-var old_waterStatus;
 waterRef.on('value', function(snapshot) {
-	old_waterStatus = snapshot.val();
-	changeWaterStats();
-});	
-
-function changeWaterStats() {
 	$('.water-status').each(function() {
-		$(this).html(old_waterStatus.stats);
+		$(this).html(snapshot.val().stats);
 	});
-}
+});	
 
 /** FOOD FUNCTIONS **/
 var date_lastFilled;
@@ -31,10 +25,7 @@ foodRef.on('child_added', function(childSnapshot, prevChildKey) {
 });
 
 function changeFoodStats() {
-	console.log("Date last filled:", date_lastFilled.date);
-	$('.food-status').each(function() { 
-		$(this).html(date_lastFilled.date);
-	});	
+	//console.log("Date last filled:", date_lastFilled.date);
 	
 	// hamster has been fed
 	$('.quick-food-status').each(function() {
@@ -50,14 +41,18 @@ function changeFoodStats() {
 // also pushes an activity
 $('.feedButton').on('click', function() {
 	console.log("Feed button clicked!");
+	// log a food refill data point
 	foodRef.push({
 		"date": new Date().toString()
 	});
+	// log an activity notification
 	activityRef.push({
 		"date": new Date().toString(),
 		"category": "food",
 		"description": "Food refilled."
 	});
+	// send f to refillFood for Arduino
+	foodRef.update({"refillFood":"f"});
 });
 
 /** ALL TRACKED CHANGES **/
@@ -71,12 +66,6 @@ function trackChanges(){
 		console.log('water has changed!');
 		$('.water-status').each(function() {
 			$(this).html(waterRef.stats);
-			var desc = "Water levels are " + $(this).html();
-			activityRef.push({
-				"date": new Date().toString(),
-				"category": "water",
-				"description": desc,
-			});
 		});
 	}
 	
@@ -111,14 +100,14 @@ function init() {
 //FIREBASE DATA INITALIZERS 
 dateRef.once("value", function(data) {
 	$('.last-update-date').each(function() {
-		console.log(data.val());
+		//console.log(data.val());
 		var d = data.val();
 		$(this).html((new Date(d)).toDateString());
 	});
 });
 
-activityRef.on('child_added', function (snapshot) {
-	console.log("Activity: ", snapshot.val());
+activityRef.limitToLast(7).on('child_added', function (snapshot, prevChildKey) {
+	//console.log("Activity: ", snapshot.val());
 	var act = snapshot.val();
 	var description = act.description;
 	var date = act.date;

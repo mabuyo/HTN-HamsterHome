@@ -1,19 +1,19 @@
-
 from firebase import Firebase
 import serial
 import io 
 from threading import Thread
+import datetime
 
-#diameterOfWheel = 
+# diameterOfWheel = 5
 
 waterRef = Firebase('https://hamster-home.firebaseio.com/water')
 foodRefillRef = Firebase('https://hamster-home.firebaseio.com/food/refillFood')
 foodRef = Firebase('https://hamster-home.firebaseio.com/food')
 activityRef = Firebase('https://hamster-home.firebaseio.com/activity')
-s = serial.Serial('/dev/tty.usbmodem1411', 9600)
+s = serial.Serial('/dev/tty.usbmodem1451', 9600)
 
 def handleSerialData():
-	previousWaterState;
+	previousWaterState = "random";
 	while True:
 		incomingSerialData = s.readline()
 		print incomingSerialData
@@ -30,28 +30,30 @@ def handleSerialData():
 			if (waterDescription != previousWaterState): 
 				previousWaterState = waterDescription
 				desc = "Water levels are " + waterDescription
+				n = datetime.datetime.now()
+				n = n.strftime("%c")
 				activityRef.push({
-					"date": new Date().toString(),
+					"date": n,
 					"category": "water",
 					"description": desc
 				})
 
 
 
-		elif incomingSerialData.startswith('/T'):
-			revolutions = incomingSerialData[2:]
-			print revolutions
-			circumference = 3.14159*diameterOfWheel
-			distance = circumference*revolutions
-			#totalHourlyDistance = (distance pulled from database) + distance
-			#total 
+		# elif incomingSerialData.startswith('/T'):
+		# 	revolutions = incomingSerialData[2:]
+		# 	print revolutions
+		# 	circumference = 3.14159*diameterOfWheel
+		# 	distance = circumference*revolutions
+		# 	#totalHourlyDistance = (distance pulled from database) + distance
+		# 	#total 
 
 def handleFireBaseData():
 	while True:
 		refillCommand = foodRefillRef.get();
 		if (refillCommand == "f"): 
 			#send f over to arduino 
-			print refillCommand
+			s.write('f')
 			# reset database to n when done feeding
 			foodRef.set({"refillFood": "n"})
 
@@ -59,5 +61,5 @@ def handleFireBaseData():
 handleFireBaseDataThread = Thread(target=handleFireBaseData)
 handleFireBaseDataThread.start()
 
-# handleSerialDataThread = Thread(target = handleSerialData)
-# handleSerialDataThread.start()
+handleSerialDataThread = Thread(target = handleSerialData)
+handleSerialDataThread.start()
