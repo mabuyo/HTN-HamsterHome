@@ -14,6 +14,11 @@ waterRef.on('value', function(snapshot) {
 	});
 });	
 
+/** WHEEL FUNCTIONS */
+wheelRef.on('child_changed', function(snapshot) {
+	$('#distance-stat').html(Math.floor(snapshot.val().totalDailyDistance) + "m");
+});	
+
 /** FOOD FUNCTIONS **/
 var date_lastFilled;
 
@@ -104,6 +109,18 @@ dateRef.once("value", function(data) {
 		var d = data.val();
 		$(this).html((new Date(d)).toDateString());
 	});
+});
+
+wheelRef.once("value", function(data) {
+	var currentDate = new Date();
+	var month = currentDate.getMonth() + 1;
+	var day = currentDate.getDate();
+	var year = currentDate.getFullYear();
+	var dateKey = (month+'-'+day+'-'+year).toString()
+	// console.log((month+'-'+day+'-'+year).toString());
+	// console.log(data.val()[dateKey].totalDailyDistance);
+	var initDistance = data.val()[dateKey].totalDailyDistance;
+	$('#distance-stat').html(Math.floor(initDistance) + " m");
 });
 
 activityRef.limitToLast(7).on('child_added', function (snapshot, prevChildKey) {
