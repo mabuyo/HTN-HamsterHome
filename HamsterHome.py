@@ -7,7 +7,7 @@ import datetime
 diameterOfWheel = 0.12
 
 waterRef = Firebase('https://hamster-home.firebaseio.com/water')
-foodRefillRef = Firebase('https://hamster-home.firebaseio.com/food/refillFood')
+foodRefillRef = Firebase('https://hamster-home.firebaseio.com/refillFood/refillFood')
 foodRef = Firebase('https://hamster-home.firebaseio.com/food')
 activityRef = Firebase('https://hamster-home.firebaseio.com/activity')
 wheelRef = Firebase('https://hamster-home.firebaseio.com/wheel')
@@ -71,7 +71,7 @@ def handleFireBaseData():
 			#send f over to arduino 
 			s.write('f')
 			# reset database to n when done feeding
-			foodRef.set({"refillFood": "n"})
+			foodRefillRef.set({"refillFood": "n"})
 
 
 handleFireBaseDataThread = Thread(target=handleFireBaseData)

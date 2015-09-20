@@ -32,7 +32,6 @@ foodRef.on('child_added', function(childSnapshot, prevChildKey) {
 foodRef.once('child_added', function(snapshot, prevChildKey) {
 	console.log(snapshot.val());
 	date_lastFilled = snapshot.val();
-	//console.log("Last date added: ", date_lastFilled);
 	changeFoodStats();
 });
 
@@ -53,6 +52,9 @@ function changeFoodStats() {
 // also pushes an activity
 $('.feedButton').on('click', function() {
 	console.log("Feed button clicked!");
+	// send f to refillFood for Arduino
+	ref.child('refillFood').set({"refillFood":"f"});
+
 	// log a food refill data point
 	foodRef.push({
 		"date": new Date().toString()
@@ -63,8 +65,7 @@ $('.feedButton').on('click', function() {
 		"category": "food",
 		"description": "Food refilled."
 	});
-	// send f to refillFood for Arduino
-	foodRef.update({"refillFood":"f"});
+	
 });
 
 /** ALL TRACKED CHANGES **/
@@ -110,7 +111,7 @@ function init() {
 }
 
 //FIREBASE DATA INITALIZERS 
-dateRef.once("value", function(data) {
+dateRef.on("value", function(data) {
 	$('.last-update-date').each(function() {
 		//console.log(data.val());
 		var d = data.val();
