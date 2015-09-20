@@ -16,7 +16,7 @@ waterRef.on('value', function(snapshot) {
 
 /** WHEEL FUNCTIONS */
 wheelRef.on('child_changed', function(snapshot) {
-	$('#distance-stat').html(Math.floor(snapshot.val().totalDailyDistance) + "m");
+	$('#distance-stat').html(Math.floor(snapshot.val().totalDailyDistance) + " m");
 });	
 
 /** FOOD FUNCTIONS **/
@@ -25,6 +25,13 @@ var date_lastFilled;
 // food database changes
 foodRef.on('child_added', function(childSnapshot, prevChildKey) {
 	date_lastFilled = childSnapshot.val();
+	//console.log("Last date added: ", date_lastFilled);
+	changeFoodStats();
+});
+
+foodRef.once('child_added', function(snapshot, prevChildKey) {
+	console.log(snapshot.val());
+	date_lastFilled = snapshot.val();
 	//console.log("Last date added: ", date_lastFilled);
 	changeFoodStats();
 });
@@ -120,6 +127,7 @@ wheelRef.once("value", function(data) {
 	// console.log((month+'-'+day+'-'+year).toString());
 	// console.log(data.val()[dateKey].totalDailyDistance);
 	var initDistance = data.val()[dateKey].totalDailyDistance;
+
 	$('#distance-stat').html(Math.floor(initDistance) + " m");
 });
 
