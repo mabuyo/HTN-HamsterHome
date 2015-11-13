@@ -50,7 +50,7 @@ function changeFoodStats() {
 
 // what happens when feed button is clicked? database is updated with the time it was fed.
 // also pushes an activity
-$('.feedButton').on('click', function() {
+$('.feedButton').on('click', function() {	
 	console.log("Feed button clicked!");
 	// send f to refillFood for Arduino
 	ref.child('refillFood').set({"refillFood":"f"});
