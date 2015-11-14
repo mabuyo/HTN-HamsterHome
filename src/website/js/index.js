@@ -101,13 +101,35 @@ function trackChanges(){
 	}
 }
 
+// camera stuff
+function startCamera() {
+	console.log("Starting camera...");
+	var canvas = document.getElementById("video-stream");
+	var context = canvas.getContext("2d");
+
+    if (context) {
+      	var piImage = new Image();
+
+    	piImage.onload = function() {
+			console.log('Drawing image');
+			context.drawImage(piImage, 0, 0, canvas.width, canvas.height);      
+		}
+
+     	piImage.src = "http://192.168.0.28/picam/cam_pic.php?time=" + new Date().getTime();
+    }
+
+    requestAnimationFrame(startCamera);
+}
 
 function init() {
 	// listeners
 	console.log("initiating listeners");
-	$('.update-stats').on('click', function() {
-		trackChanges();
-	});
+	// $('.update-stats').on('click', function() {
+	// 	trackChanges();
+	// });
+
+	// camera video-stream
+	startCamera();
 }
 
 //FIREBASE DATA INITALIZERS 
@@ -127,9 +149,9 @@ wheelRef.once("value", function(data) {
 	var dateKey = (month+'-'+day+'-'+year).toString()
 	// console.log((month+'-'+day+'-'+year).toString());
 	// console.log(data.val()[dateKey].totalDailyDistance);
-	var initDistance = data.val()[dateKey].totalDailyDistance;
+	// var initDistance = data.val()[dateKey].totalDailyDistance;
 
-	$('#distance-stat').html(Math.floor(initDistance) + " m");
+	// $('#distance-stat').html(Math.floor(initDistance) + " m");
 });
 
 activityRef.limitToLast(7).on('child_added', function (snapshot, prevChildKey) {
