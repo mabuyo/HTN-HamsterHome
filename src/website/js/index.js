@@ -103,7 +103,7 @@ function trackChanges(){
 
 // camera stuff
 function startCamera() {
-	console.log("Starting camera...");
+	//console.log("Starting camera...");
 	var canvas = document.getElementById("video-stream");
 	var context = canvas.getContext("2d");
 
@@ -111,7 +111,7 @@ function startCamera() {
       	var piImage = new Image();
 
     	piImage.onload = function() {
-			console.log('Drawing image');
+			//console.log('Drawing image');
 			context.drawImage(piImage, 0, 0, canvas.width, canvas.height);      
 		}
 
@@ -124,9 +124,9 @@ function startCamera() {
 function init() {
 	// listeners
 	console.log("initiating listeners");
-	// $('.update-stats').on('click', function() {
-	// 	trackChanges();
-	// });
+	$('.update-stats').on('click', function() {
+		trackChanges();
+	});
 
 	// camera video-stream
 	startCamera();
