@@ -22,12 +22,12 @@ class FirebaseDB():
     
     def updateActivities(self, activity):
         """
-        Update only after setting.
+        Water: Needs to be set to proper value in database before activity is updated.
         """
         if (activity == "water"):
             self.updateWater()
         elif (activity == "food"):
-            pass
+            self.updateFood()
         elif (activity == "wheel"):
             pass
         else: print("Error!")
@@ -41,4 +41,22 @@ class FirebaseDB():
             "category": "water",
             "description": description
         })
+
+    def updateFood(self):
+        # TODO: This only deals with situation where food is refilled. Possible extension could be "food running low", according to calories burned or time passed.
+        description = "Food refilled."
+        n = datetime.datetime.now()
+        n = n.strftime("%c")
+        self.activityRef.push({
+            "date": n,
+            "category": "food",
+            "description": description
+        })
+
+
+
+
+
+
+
         

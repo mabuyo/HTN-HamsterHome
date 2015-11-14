@@ -22,6 +22,7 @@ def foodRefill():
             food.refill()
 
             # reset database to no when done feeding
+            database.updateActivities("food")
             database.setFoodRefill("no")
 
 def waterLevels():
@@ -44,10 +45,10 @@ def main():
 
     # initialize threads
     foodRefillThread = Thread(target=foodRefill)
-    foodRefillThread.start()
+    #foodRefillThread.start()
 
     waterLevelsThread = Thread(target=waterLevels)
-    #waterLevelsThread.start()
+    waterLevelsThread.start()
 
 ########### GLOBAL VARIABLES #############
 ##########################################
@@ -58,7 +59,7 @@ database = firebaseDB.FirebaseDB()
 # initialize components
 food = foodComponent.FoodMotor()
 water = waterComponent.Water("full")
-wheel = wheelComponent.Wheel()
+wheel = wheelComponent.Wheel(12)
 camera = cameraComponent.Camera()
 
 ##########################################
