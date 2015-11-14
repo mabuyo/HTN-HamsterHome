@@ -1,42 +1,44 @@
 from firebase import Firebase
-class FirebaseDB(object):
-	def __init__(self):
-        self.waterRef = Firebase('https://hamster-home.firebaseio.com/water')
-		self.foodRefillRef = Firebase('https://hamster-home.firebaseio.com/refillFood/refillFood')
-		self.foodRef = Firebase('https://hamster-home.firebaseio.com/food')
-		self.activityRef = Firebase('https://hamster-home.firebaseio.com/activity')
+import datetime
 
-	def getFoodRefill(self):
-		return foodRefillRef.get()
+class FirebaseDB():
+    def __init__(self):
+        self.waterRef = Firebase('https://hamster-home.firebaseio.com/waterStatus')
+        self.foodRefillRef = Firebase('https://hamster-home.firebaseio.com/refillFood')
+        self.foodRef = Firebase('https://hamster-home.firebaseio.com/food')
+        self.activityRef = Firebase('https://hamster-home.firebaseio.com/activity')
 
-	def setFoodRefill(self, state):
-		foodRefillRef.set({"refillFood": '"' + state + '"'})
+    def getFoodRefill(self):
+        return self.foodRefillRef.get()
 
-	def setWaterStatus(self, state):
-		waterRef.set({"stats": '"' + state + '"'})
+    def setFoodRefill(self, state):
+        self.foodRefillRef.set(state)
 
-	def getWaterStatus(self):
-		return waterRef.get()
-	
-	def updateActivities(self, activity):
-		"""
-		Update only after setting.
-		"""
-		if (activity == "water"):
-			updateWater()
-		elif (activity == "food"):
-			pass
-		elif (activity == "wheel"):
-			pass
-		else: print("Error!")
+    def setWaterStatus(self, state):
+        self.waterRef.set(state)
 
-	def updateWater(self):
-		desc = "Water levels are " + self.getWaterStatus()
-		n = datetime.datetime.now()
-		n = n.strftime("%c")
-		activityRef.push({
-			"date": n,
-			"category": "water",
-			"description": desc
-		})
-		
+    def getWaterStatus(self):
+        return self.waterRef.get()
+    
+    def updateActivities(self, activity):
+        """
+        Update only after setting.
+        """
+        if (activity == "water"):
+            self.updateWater()
+        elif (activity == "food"):
+            pass
+        elif (activity == "wheel"):
+            pass
+        else: print("Error!")
+
+    def updateWater(self):
+        description = "Water levels are " + self.getWaterStatus()
+        n = datetime.datetime.now()
+        n = n.strftime("%c")
+        self.activityRef.push({
+            "date": n,
+            "category": "water",
+            "description": description
+        })
+        

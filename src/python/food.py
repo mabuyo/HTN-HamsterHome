@@ -1,9 +1,9 @@
 class FoodMotor(object):
-	def __init__(self):
+    def __init__(self):
         pass
 
     def refill(self):
-    	"""
-    	Activates auger system to refill food
-    	"""
-    	pass
+        """
+        Activates auger system to refill food
+        """
+        pass
