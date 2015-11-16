@@ -45,7 +45,7 @@ def main():
 
     # initialize threads
     foodRefillThread = Thread(target=foodRefill)
-    #foodRefillThread.start()
+    foodRefillThread.start()
 
     waterLevelsThread = Thread(target=waterLevels)
     waterLevelsThread.start()
