@@ -53,7 +53,8 @@ def tempReading():
         print 'Temp={0:0.1f}*C'.format(current_temperature)
         print 'Humidity={0:0.1f}%'.format(current_humidity)
         
-        time.sleep(3)
+        database.recordTempAndHumid(current_temperature, current_humidity)
+        time.sleep(5)   # record every hour
 
 
 def main():

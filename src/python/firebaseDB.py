@@ -54,6 +54,14 @@ class FirebaseDB():
             "description": description
         })
 
+    def recordTempAndHumid(self, temperature, humidity):
+        n = datetime.datetime.now()
+        n = n.strftime("%c")
+        self.tempRef.push({
+            "date": n,
+            "temperature": temperature,
+            "humidity": humidity
+        })
 
 
 

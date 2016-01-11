@@ -3,5 +3,6 @@ import time
 
 w = wheel.Wheel(5)
 while True:
-	w.readSensor()
+	sensorVal = w.readSensor()
+	w.calculate(sensorVal)
 	time.sleep(5)
