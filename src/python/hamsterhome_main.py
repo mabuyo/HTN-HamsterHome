@@ -2,11 +2,13 @@ import camera as cameraComponent
 import water as waterComponent
 import wheel as wheelComponent
 import food as foodComponent
+import temperature as tempComponent
 import firebaseDB
 import serial 
 import io 
 from threading import Thread
 import datetime
+import time
 
 
 def foodRefill():
@@ -39,16 +41,34 @@ def waterLevels():
             database.setWaterStatus(current_status)
             database.updateActivities("water")
 
+def tempReading():
+    """
+    Checks the temperature and humidity of the room every hour and updates database.
+    """
+    while True:
+        temperature.getSensorReading()
+        current_temperature = temperature.getTemperature()
+        current_humidity = temperature.getHumidity()
+        
+        print 'Temp={0:0.1f}*C'.format(current_temperature)
+        print 'Humidity={0:0.1f}%'.format(current_humidity)
+        
+        time.sleep(3)
+
 
 def main():
     print("Hello World! This is Hamster Home.\n")
 
     # initialize threads
     foodRefillThread = Thread(target=foodRefill)
-    foodRefillThread.start()
+    #foodRefillThread.start()
 
     waterLevelsThread = Thread(target=waterLevels)
-    waterLevelsThread.start()
+    #waterLevelsThread.start()
+
+    temperatureThread = Thread(target=tempReading)
+    temperatureThread.start()
+
 
 ########### GLOBAL VARIABLES #############
 ##########################################
@@ -61,6 +81,7 @@ food = foodComponent.FoodMotor()
 water = waterComponent.Water("full")
 wheel = wheelComponent.Wheel(12)
 camera = cameraComponent.Camera()
+temperature = tempComponent.Temperature()
 
 ##########################################
 ######## END GLOBAL VARIABLES ############

@@ -4,4 +4,4 @@ import time
 w = water.Water("full")
 while True:
 	w.readStatus()
-	time.sleep(10)
+	time.sleep(5)

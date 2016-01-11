@@ -129,7 +129,7 @@ function init() {
 	});
 
 	// camera video-stream
-	startCamera();
+	//startCamera();
 }
 
 //FIREBASE DATA INITALIZERS 

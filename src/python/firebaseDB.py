@@ -7,6 +7,7 @@ class FirebaseDB():
         self.foodRefillRef = Firebase('https://hamster-home.firebaseio.com/refillFood')
         self.foodRef = Firebase('https://hamster-home.firebaseio.com/food')
         self.activityRef = Firebase('https://hamster-home.firebaseio.com/activity')
+        self.tempRef = Firebase('https://hamster-home.firebaseio.com/temperature')
 
     def getFoodRefill(self):
         return self.foodRefillRef.get()
@@ -52,7 +53,6 @@ class FirebaseDB():
             "category": "food",
             "description": description
         })
-
 
 
 
